@@ -60,7 +60,7 @@ and open the template in the editor.
                 <?php echo $_SESSION['usuario']?>
             </div>
             <div class="span-23 prepend-1 last">
-                    <a href="nuevanota.php">Nueva nota</a>
+                    <a href="nuevaNota.php">Nueva nota</a>
             </div>
             <div class="span-12 prepend-1 append-11 last">
 
