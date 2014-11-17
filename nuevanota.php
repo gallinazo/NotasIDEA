@@ -1,29 +1,41 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
 <?php
-/*
- * Este es el php que se encarga de insertar en la base de datos las notas.
- * recibe del html por POST 2 parametros (cTitulo y cNota)(ojo no hace validaciones de seguridad)
- * luego con el include("configuracion.php"); carga los parametros de confuguración, con $enlace establece la conexion
- * a la base de datos y construye el insert. Devuelve  "Nota guardada exitosamente" si no muere (die) por algun error 
- * con la conexion o con la ejecucion del query
- */
-session_start();
-$_SESSION['vTitulo']=$_POST['cTitulo'];
-$_SESSION['vNota']=$_POST['cNota'];
 
-include("configuracion.php");
-
-$enlace = mysql_connect($db_host,$db_user,$db_password)
-        or die('No pudo conectarse: ' . mysql_error());
-        mysql_select_db($db_database) or die('No pudo seleccionarse la BD.');
-        mysql_set_charset('utf8',$enlace); //para el tema de tildes
-
-$query =sprintf("INSERT INTO `notas` (`titulo_nota`, `info_nota`) VALUES ('%s','%s')", 
-        mysql_real_escape_string($_SESSION['vTitulo']),
-        mysql_real_escape_string($_SESSION['vNota']));
-
-//echo $query;
-mysql_query($query)or die('Error, en la inserción de la nota. ' . mysql_error());
-
-echo "Nota guardada exitosamente";
-
-?>
+    session_start();
+    include("sesion.php");
+    include("head.php");//en este agrego los css y el encoding de manera centralizada en un archivo
+?>    
+     
+    <body>
+        <script src="js/myNoteApp.js" defer="defer"></script>
+        <script src="js/myNoteCtrl.js" defer="defer"></script>
+        <div class="container" data-ng-app="NotasApp" data-ng-controller="myNoteCtrl"> 
+            <div  class="span-12 last">
+                <div class="span-12 last">
+                    <h3 style="margin-bottom: 0; margin-top: 4">Titulo</h3>
+                    <!-- aqui uso un modelo llamado "title", que luego llamo desde funciones del controlador "myNoteCtrl" -->
+                    <input style="font-family: Arial, Helvetica, sans-serif; margin: 0" id="inputTitulo"  type="text" maxlength="50" name="cTitulo" size="55" placeholder="Escribe el título" data-ng-model="title" data-ng-init="title=\''.$resultado["titulo_nota"].'\'">
+                </div> 
+                <div class="span-12 last">
+                    <br>
+                    <h3 style="margin: 0">Nota</h3>
+                    <!-- aqui uso un modelo llamado "message", que luego llamo desde funciones del controlador "myNoteCtrl"  -->
+                    <textarea style="font-family: Arial, Helvetica, sans-serif; margin: 0; width: 400px;" id="textNota"  maxlength="500" cols="40" name="cNota" rows="10" placeholder="Escribe tu nota" data-ng-model="message" data-ng-init="message=\''.$resultado["info_nota"].'\'" ></textarea>
+                </div>
+                <div class="span-12 last">
+                    <!-- las funciones save y clear, estan en el controlador "myNoteCtrl" -->
+                    <button data-ng_click="create()">Crear</button>
+                    <button data-ng-click="clear()">Limpiar</button>
+                </div>
+                <!-- Aqui voy mostrando el total de caracteres disponibles, se calculan en el controler y se muestran aqui -->
+                <p>Number of characters left: <span data-ng-bind="left()"></span></p>
+                <p>[<a href="indexApp.php">Atras</a>]</p>
+            </div>
+        </div>
+    </body>'
