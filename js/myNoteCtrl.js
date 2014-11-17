@@ -1,5 +1,5 @@
 app.controller("myNoteCtrl", function($scope) {
-    
+    $scope.message = "";
     $scope.left = function() {
         return 500 - $scope.message.length;
     };
