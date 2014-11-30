@@ -60,6 +60,7 @@ and open the template in the editor.
             <!-- las funciones save y clear, estan en el controlador "myNoteCtrl" -->
             <button data-ng_click="save()">Guardar</button>
             <button data-ng-click="clear()">Limpiar</button>
+            <button data-ng-click="delete()">Borrar</button>
         </div>
         <!-- Aqui voy mostrando el total de caracteres disponibles, se calculan en el controler y se muestran aqui -->
         <p>Number of characters left: <span data-ng-bind="left()"></span></p><p>[<a href="indexApp.php">Atras</a>]</p>
